@@ -1,6 +1,17 @@
 import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema(
+interface DocumentResult<T> {
+  _doc: T;
+}
+
+interface IEvent extends DocumentResult<IEvent> {
+  _id: any;
+  username: string;
+  email: string;
+  password: string;
+}
+
+const userSchema = new mongoose.Schema<IEvent>(
   {
     username: {
       type: String,
