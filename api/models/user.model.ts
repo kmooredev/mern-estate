@@ -9,6 +9,7 @@ interface IEvent extends DocumentResult<IEvent> {
   username: string;
   email: string;
   password: string;
+  avatar: string;
 }
 
 const userSchema = new mongoose.Schema<IEvent>(
@@ -26,6 +27,11 @@ const userSchema = new mongoose.Schema<IEvent>(
     password: {
       type: String,
       required: true,
+    },
+    avatar: {
+      type: String,
+      default:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Windows_10_Default_Profile_Picture.svg/2048px-Windows_10_Default_Profile_Picture.svg.png',
     },
   },
   { timestamps: true }
