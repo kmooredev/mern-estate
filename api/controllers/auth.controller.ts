@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import User from '../models/user.model.ts';
 import bcrypt from 'bcryptjs';
-import { errorHandler } from '../utils/error.ts';
+import errorHandler from '../utils/error.ts';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req: any, res: any, next: NextFunction) => {
