@@ -90,3 +90,16 @@ export const google = async (
     next(error);
   }
 };
+
+export const signout = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    res.clearCookie('access_token');
+    res.status(200).json({ message: 'User signed out!' });
+  } catch (error) {
+    next(error);
+  }
+};
