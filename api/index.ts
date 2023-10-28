@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.ts';
 import authRouter from './routes/auth.route.ts';
+import listingRouter from './routes/listing.route.ts';
 import cookieParser from 'cookie-parser';
 
 dotenv.config();
@@ -26,6 +27,7 @@ app.listen(3000, () => {
 
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 
 app.use(
   (err: Error | any, _req: Request, res: Response, _nextTick: NextFunction) => {
