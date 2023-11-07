@@ -2,6 +2,7 @@ import { NextFunction } from 'express';
 import errorHandler from '../utils/error.ts';
 import bcrypt from 'bcryptjs';
 import User from '../models/user.model.ts';
+import Listing from '../models/listing.model.ts';
 
 export const test = (_req: any, res: any) => {
   res.send('Api Route is working!');
@@ -47,5 +48,18 @@ export const deleteUser = async (req: any, res: any, next: NextFunction) => {
     res.status(200).json('User has been deleted!');
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserListings = async (req: any, res: any, next: NextFunction) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const listings = await Listing.find({ userRef: req.params.id });
+      res.status(200).json(listings);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, 'You can only view your own listings!'));
   }
 };
