@@ -15,10 +15,7 @@ import {
   signoutUserSuccess,
 } from '../redux/user/userSlice';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-
-interface FormData {
-  avatar?: string;
-}
+import { FormData, Listing } from '../types';
 
 const Profile = () => {
   const { currentUser, isLoading, error } = useAppSelector((state) => state.user);
@@ -29,7 +26,7 @@ const Profile = () => {
   const [formData, setFormData] = useState<FormData>({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [showListingsError, setShowListingsError] = useState(false);
-  const [userListings, setUserListings] = useState<any[]>([]); // TODO: change to Listing[] type
+  const [userListings, setUserListings] = useState<Listing[]>([]);
   const dispatch = useAppDispatch();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -142,6 +139,23 @@ const Profile = () => {
     }
   };
 
+  const handleListingDelete = async (listingId: string) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserListings((prev) => prev.filter((listing) => listing._id !== listingId));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center my-7'>Profile</h1>
@@ -245,7 +259,11 @@ const Profile = () => {
               </Link>
 
               <div className='flex flex-col items-center'>
-                <button className='text-red-700 uppercase'>Delete</button>
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className='text-red-700 uppercase'>
+                  Delete
+                </button>
                 <button className='text-green-700 uppercase'>Edit</button>
               </div>
             </div>
