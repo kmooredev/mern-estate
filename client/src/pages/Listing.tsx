@@ -16,6 +16,7 @@ import {
   FaParking,
 } from 'react-icons/fa';
 import { useAppSelector } from '../redux/hooks';
+import Contact from '../components/Contact';
 
 const Listing = () => {
   SwiperCore.use([Navigation]);
@@ -135,7 +136,7 @@ const Listing = () => {
                 Contact Landlord
               </button>
             )}
-            {/* {contact && <Contact listing={listing}/>} */}
+            {contact && <Contact listing={listing} />}
           </div>
         </div>
       )}
