@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Listing as ListingType } from '../types';
+import { Listing } from '../types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
@@ -20,20 +20,21 @@ import Contact from '../components/Contact';
 
 const Listing = () => {
   SwiperCore.use([Navigation]);
-  const [listing, setListing] = useState<ListingType | null>(null);
+  const [listing, setListing] = useState<Listing | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const [contact, setContact] = useState<boolean>(false);
   const params = useParams();
   const currentUser = useAppSelector((state) => state.user.currentUser);
+
   useEffect(() => {
     try {
       setLoading(true);
       const fetchListing = async () => {
         const res = await fetch(`/api/listing/get/${params.listingId}`);
         const data = await res.json();
-        if (data.success == false) {
+        if (data.success === false) {
           setError(true);
           setLoading(false);
           console.log(data.message);
